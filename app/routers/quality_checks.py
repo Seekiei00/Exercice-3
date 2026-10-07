@@ -18,7 +18,7 @@ def _get_quality_check_or_404(db: DbSession, quality_check_id: int) -> QualityCh
 
 def _ensure_dataset_exists(db: DbSession, dataset_id: int) -> None:
     if db.get(Dataset, dataset_id) is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset introuvable")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Jeu de données introuvable")
 
 
 # --- Consultation : tout utilisateur authentifié ----------------------------

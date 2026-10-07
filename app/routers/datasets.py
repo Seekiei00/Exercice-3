@@ -12,7 +12,7 @@ router = APIRouter(prefix="/datasets", tags=["datasets"])
 def _get_dataset_or_404(db: DbSession, dataset_id: int) -> Dataset:
     dataset = db.get(Dataset, dataset_id)
     if dataset is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Jeu de données introuvable")
     return dataset
 
 
@@ -29,7 +29,7 @@ def get_dataset(dataset_id: int, db: DbSession):
         select(Dataset).where(Dataset.id == dataset_id, Dataset.is_public.is_(True))
     )
     if dataset is None:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Dataset not found")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Jeu de données introuvable")
     return dataset
 
 
