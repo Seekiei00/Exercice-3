@@ -1,0 +1,29 @@
+from typing import Annotated
+
+from fastapi import Depends
+from sqlalchemy import create_engine
+from sqlalchemy.orm import DeclarativeBase, Session, sessionmaker
+
+from app.config import settings
+
+# L'engine représente la connexion générale à PostgreSQL.
+engine = create_engine(settings.database_url, pool_pre_ping=True)
+
+# Fabrique de sessions utilisées par les endpoints.
+SessionLocal = sessionmaker(bind=engine, autoflush=False, expire_on_commit=False)
+
+
+class Base(DeclarativeBase):
+    """Classe de base commune aux modèles SQLAlchemy."""
+
+
+def get_db():
+    """Injecte une session SQLAlchemy puis la ferme proprement."""
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
+DbSession = Annotated[Session, Depends(get_db)]
